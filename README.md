@@ -12,7 +12,7 @@ For this experiment we will use the following tools and systems:
 * OpenSSL
 
 To better understand how we ride, see this pattern topology:
-![image](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
+![image](https://raw.githubusercontent.com/daper/galera-cluster/master/docs/galera-cluster.png)
 
 ## Setting up a new VPC and its subnet
 
