@@ -1,5 +1,5 @@
 # Multi-Region Galera Cluster on EC2
-For this paper we will use the following tools and systems:
+For this experiment we will use the following tools and systems:
 * AWS EC2
 * Docker daemon
 * Docker cli
@@ -12,7 +12,7 @@ For this paper we will use the following tools and systems:
 * OpenSSL
 
 To better understand how we ride, see this pattern topology:
-<img name="docs/galera-cluster.png"></img>
+![image](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png)
 
 ## Setting up a new VPC and its subnet
 
@@ -25,7 +25,7 @@ Once we create the subnet, we will modify the behavior of public IPs allocation.
 In order to have access to the Internet, we need to associate an Internet Gateway (IGW) to our VPC. We created one from the section Internet Gateways and associate the new VPC.
 
 Now we must configure the routing table for the machines doing they know what is their default route. In the section of Route Tables, select one that corresponds to the new VPC and in the routes tab, edit it to add the following:
-<img name="docs/default-route.png"></img>
+![image](https://raw.githubusercontent.com/daper/galera-cluster/master/docs/default-route.png)
 
 The dropdown will show us the IGW created. If not, copy and paste the reference from Internet Gateways tab.
 
@@ -53,8 +53,8 @@ First we get 3 Elastic Ips (one per zone) for each of the routers. We can do it 
 | | All Traffic | ALL | ALL | `192.168.3.0/24`
 
 Now we turn to the EC2 service. There began an instance in each area, which will act as VPN router between our networks. We choose Debian 8 (Jessie) as operating system. Then the instance type. And then the configuration to use the VPC we created earlier and a fixed private IP. That will be for each network `192.168.1.10`, `192.168.2.10` and `192.168.3.10`. To make it more clear I leave a screenshot of the configuration form:
-<img name="docs/debian-launch-config.png"></img>
-<img name="docs/debian-launch-config-2.png"></img>
+![image](https://raw.githubusercontent.com/daper/galera-cluster/master/docs/debian-launch-config.png)
+![image](https://raw.githubusercontent.com/daper/galera-cluster/master/docs/debian-launch-config-2.png)
 
 We add to the 3 security groups created earlier, create the instance and associate each "elastic IP" to one of the machines.
 
