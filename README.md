@@ -216,6 +216,7 @@ The only thing left is to open the port 2375 of one (or all nodes). This is poss
 To do this run the following command:
 ```bash
 export DOCKER_HOST=tcp://<any_cluster_node_public_ip>:2375
+docker info
 ```
 
 And we find that all nodes are included and a `status: healthy`. We will also see information grouped CPUs and memory we have.
