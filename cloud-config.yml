@@ -1,0 +1,16 @@
+#cloud-config
+
+coreos:
+  etcd2:
+    advertise-client-urls: http://$private_ipv4:2379,http://$private_ipv4:4001
+    initial-advertise-peer-urls: http://$private_ipv4:2380
+    listen-client-urls: http://0.0.0.0:2379,http://0.0.0.0:4001
+    listen-peer-urls: http://$private_ipv4:2380,http://$private_ipv4:7001
+    name: "mukesha"
+    initial-cluster: "damodara=http://192.168.3.30:2380,mukesha=http://192.168.1.30:2380,mitra=http://192.168.2.30:2380"
+    initial-cluster-state: "new"
+    initial-cluster-token: "suresha"
+
+  units:
+    - name: etcd2.service
+      command: start

@@ -1,0 +1,73 @@
+#
+# /etc/haproxy/haproxy.cfg
+#
+
+#---------------------------------------------------------------------
+# Global settings
+#---------------------------------------------------------------------
+global
+  # to have these messages end up in /var/log/haproxy.log you will
+  # need to:
+  #
+  # 1) configure syslog to accept network log events.  This is done
+  #    by adding the '-r' option to the SYSLOGD_OPTIONS in
+  #    /etc/sysconfig/syslog
+  #
+  # 2) configure local2 events to go to the /var/log/haproxy.log
+  #   file. A line like the following can be added to
+  #   /etc/sysconfig/syslog
+  #
+  #    local2.*                       /var/log/haproxy.log
+  #
+  log         127.0.0.1 local2
+
+  chroot      /var/lib/haproxy
+  pidfile     /var/run/haproxy.pid
+  maxconn     1020   # See also: ulimit -n
+  user        haproxy
+  group       haproxy
+  daemon
+
+  # turn on stats unix socket
+  stats socket /var/lib/haproxy/stats.sock mode 600 level admin
+  stats timeout 2m
+
+#---------------------------------------------------------------------
+# common defaults that all the 'frontend' and 'backend' sections will
+# use if not designated in their block
+#---------------------------------------------------------------------
+defaults
+  mode    tcp
+  log     global
+  option  dontlognull
+  option  redispatch
+  retries                   3
+  timeout queue             45s
+  timeout connect           5s
+  timeout client            1m
+  timeout server            1m
+  timeout check             10s
+  maxconn                   1020
+
+#---------------------------------------------------------------------
+# HAProxy statistics backend
+#---------------------------------------------------------------------
+listen haproxy-monitoring *:80
+  mode    http
+  stats   enable
+  stats   show-legends
+  stats   refresh           5s
+  stats   uri               /
+  stats   realm             Haproxy\ Statistics
+  stats   auth              monitor:AdMiN123
+  stats   admin             if TRUE
+  
+frontend haproxy1   # change on 2nd HAProxy
+  bind    *:3306
+  default_backend           galera-cluster
+
+backend galera-cluster
+  balance roundrobin
+  server  nodeA             192.168.1.61:3306 maxconn 151 check
+  server  nodeB             192.168.1.62:3306 maxconn 151 check
+  server  nodeC             192.168.1.63:3306 maxconn 151 check

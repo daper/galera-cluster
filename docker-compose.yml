@@ -1,0 +1,65 @@
+version: "2"
+networks:
+  galera-tier:
+    driver: overlay
+services:
+  galera1:
+    build: .
+    hostname: galera1
+    cap_add:
+      - ALL
+      - NET_ADMIN
+      - SYS_ADMIN
+    networks:
+      - galera-tier
+    environment:
+      MYSQL_ROOT_PASSWORD: 'r00tPW'
+      MYSQL_DATABASE: 'test'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'user'
+    ports:
+      - "13306:13306"
+      - "3306:3306"
+      - "4444:4444"
+      - "4567:4567"
+      - "4568:4568"
+  galera2:
+    build: .
+    hostname: galera2
+    cap_add:
+      - ALL
+      - NET_ADMIN
+      - SYS_ADMIN
+    networks:
+      - galera-tier
+    environment:
+      MYSQL_ROOT_PASSWORD: 'r00tPW'
+      MYSQL_DATABASE: 'test'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'user'
+    ports:
+      - "13306:13306"
+      - "3306:3306"
+      - "4444:4444"
+      - "4567:4567"
+      - "4568:4568"
+  galera3:
+    build: .
+    hostname: galera3
+    cap_add:
+      - ALL
+      - NET_ADMIN
+      - SYS_ADMIN
+    networks:
+      - galera-tier
+    environment:
+      MYSQL_ROOT_PASSWORD: 'r00tPW'
+      MYSQL_DATABASE: 'test'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'user'
+    ports:
+      - "13306:13306"
+      - "3306:3306"
+      - "4444:4444"
+      - "4567:4567"
+      - "4568:4568"
